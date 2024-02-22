@@ -1,8 +1,8 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+// eslint-disable-next-line no-unused-vars
+import { Provider } from 'react-redux';
+// eslint-disable-next-line no-unused-vars
 import Navigation from './navigation';
-import { Provider } from 'react-redux'
-import { store } from './store'
+import { store } from './store';
 
 export default function App() {
   return (
