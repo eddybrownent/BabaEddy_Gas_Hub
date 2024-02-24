@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-import { themeColors } from '../theme';
-import Animated,{ FadeIn, FadeOut, FadeInUp, FadeInDown } from 'react-native-reanimated';
+import {
+  View, Text, Image, TextInput, TouchableOpacity, Alert, ActivityIndicator,
+} from 'react-native';
+import Animated, { FadeInUp, FadeInDown } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
-import { useAuthentication } from "../context/useAuthentication"; // Import the useAuthentication hook
-
-
+import { themeColors } from '../theme';
+import { useAuthentication } from '../context/useAuthentication';
 
 function SignupScreen() {
   const navigation = useNavigation();
-  const { signup } = useAuthentication(); // Get the signup function from the useAuthentication hook
+  const { signup } = useAuthentication();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleSignup = async () => {
     try {
       setLoading(true);
-      await signup(email, password, phoneNumber, address, username); // Call the signup function with email and password
-      // Signup successful, navigate to another screen (e.g., home screen)
-      navigation.navigate('Login'); // Assuming 'Home' is the name of your home screen
+      await signup(email, password, phoneNumber, address, username);
+      // Signup successful, navigate to login
+      navigation.navigate('Login');
     } catch (error) {
       // Signup failed, handle error
       Alert.alert('Signup Failed', error.message);
@@ -42,30 +42,30 @@ function SignupScreen() {
       {/* title and form */}
       <View className="h-full w-full flex justify-around pt-10
       ">
-        {/*Title*/}
+        {/* Title */}
         <View className="flex items-center">
         <Animated.Text entering={FadeInUp.duration(1000).springify()} className="text-white font-bold tracking-wider text-5xl">Sign Up</Animated.Text>
         </View>
 
         <View className="flex items-center mx-4 space-y-3 pt-30">
-        <Animated.View entering={FadeInDown.duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full">
+        <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full">
             <TextInput placeholder='Username' placeholderTextColor={'white'} value={username} onChangeText={setUsername} />
         </Animated.View>
-        <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full">
+        <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full">
             <TextInput placeholder='Email' placeholderTextColor={'white'} value={email} onChangeText={setEmail} />
         </Animated.View>
-        <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full mb-3">
-            <TextInput placeholder='Password' placeholderTextColor={'gray'} secureTextEntry value={password} onChangeText={setPassword} />
+        <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full mb-3">
+            <TextInput placeholder='Password' placeholderTextColor={'white'} secureTextEntry value={password} onChangeText={setPassword} />
         </Animated.View>
         {/* Add phone number input */}
-        <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full">
+        <Animated.View entering={FadeInDown.delay(800).duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full">
             <TextInput placeholder='Phone Number' placeholderTextColor={'white'} value={phoneNumber} onChangeText={setPhoneNumber} />
         </Animated.View>
         {/* Add address input */}
-        <Animated.View entering={FadeInDown.delay(800).duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full">
+        <Animated.View entering={FadeInDown.delay(1000).duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full">
             <TextInput placeholder='Address' placeholderTextColor={'white'} value={address} onChangeText={setAddress} />
         </Animated.View>
-        <Animated.View entering={FadeInDown.delay(1000).duration(1000).springify()}className="w-full">
+        <Animated.View entering={FadeInDown.delay(1200).duration(1000).springify()}className="w-full">
         {
           loading ? (
             <ActivityIndicator />
