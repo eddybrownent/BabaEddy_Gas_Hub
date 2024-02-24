@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { themeColors } from '../theme';
-import Animated, { FadeIn, FadeOut, FadeInUp, FadeInDown } from 'react-native-reanimated';
+import { useState } from 'react';
+import {
+  View, Text, Image, TextInput, TouchableOpacity, Alert, ActivityIndicator,
+} from 'react-native';
+import Animated, { FadeInUp, FadeInDown } from 'react-native-reanimated';
 import { useNavigation } from '@react-navigation/native';
-import { useAuthentication } from "../context/useAuthentication";
-
+import * as Icon from 'react-native-feather';
+import { useAuthentication } from '../context/useAuthentication';
+import { themeColors } from '../theme';
 
 function LoginScreen() {
   const navigation = useNavigation();
@@ -12,7 +14,8 @@ function LoginScreen() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
-  const {login} = useAuthentication();
+  const { login } = useAuthentication();
+  const [loading, setLoading] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -21,16 +24,17 @@ function LoginScreen() {
   const handleLogin = async () => {
     try {
       // Perform login authentication using Firebase
-      // For example:
+      setLoading(true);
       await login(email, password);
-      
-      // For the sake of simulation, let's assume the login is successful
-      // Once the login is successful, navigate to the OrderPreparingScreen or any other screen
-      navigation.navigate('Cart');
+
+      // Once the login is successful, navigate to HomeScreen
+      navigation.navigate('Home');
     } catch (error) {
-      // Handle login error (e.g., display error message to the user)
+      // login error
       setError(error.message);
       Alert.alert('Login Failed', error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,18 +60,28 @@ function LoginScreen() {
             <TextInput placeholder='Email' placeholderTextColor={'white'} value={email} onChangeText={setEmail} style={{ color: 'white' }} />
           </Animated.View>
           <Animated.View entering={FadeInDown.delay(200).duration(1000).springify()} className="bg-black/5 p-5 rounded-2xl w-full mb-3">
-            <TextInput placeholder='Password' placeholderTextColor={'gray'} secureTextEntry={!showPassword} value={password} onChangeText={setPassword} style={{ color: 'white' }} />
+            <TextInput placeholder='Password' placeholderTextColor={'white'} secureTextEntry={!showPassword} value={password} onChangeText={setPassword} style={{ color: 'white' }} />
           </Animated.View>
-        <TouchableOpacity onPress={togglePasswordVisibility}>
-              <Text className="text-orange-600 justify-left">{showPassword ? 'Hide' : 'Show'} Password</Text>
+          <TouchableOpacity onPress={togglePasswordVisibility}>
+            {showPassword ? (
+                <Icon.EyeOff width={20} height={20} stroke="orange" strokeWidth="2.5"/>
+            ) : (
+                <Icon.Eye width={20} height={20} stroke="orange" strokeWidth="2.5" />
+            )}
         </TouchableOpacity>
           <Animated.View entering={FadeInDown.delay(400).duration(1000).springify()} className="w-full">
+          {
+          loading ? (
+            <ActivityIndicator />
+          ) : (
             <TouchableOpacity
               className="w-full, p-3 rounded-2xl mb-3"
               style={{ backgroundColor: themeColors.bgColor(1) }}
               onPress={handleLogin}>
               <Text className="text-xl font-bold text-white text-center">Login</Text>
             </TouchableOpacity>
+          )
+          }
           </Animated.View>
           {error && <Text style={{ color: 'red' }}>{error}</Text>}
           <Animated.View entering={FadeInDown.delay(600).duration(1000).springify()} className="flex-row justify-center">
