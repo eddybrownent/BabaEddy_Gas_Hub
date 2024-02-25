@@ -1,39 +1,62 @@
-import React, { useState, useMemo } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { useState, useMemo } from 'react';
+import {
+  View, Text, TouchableOpacity, Image, ScrollView, Alert,
+} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
+import * as Icon from 'react-native-feather';
 import { themeColors } from '../theme';
 import { selectCartproducts, selectCartTotal, removeFromCart } from '../slices/cartSlice';
-import * as Icon from "react-native-feather";
+import { useAuthentication } from '../context/useAuthentication';
 
 function CartScreen() {
-    const navigation = useNavigation();
-    const cartItems = useSelector(selectCartproducts);
-    const cartTotal = useSelector(selectCartTotal);
-    const dispatch = useDispatch();
-    const deliveryFee = 0;
-    const [groupedProducts, setGroupedProducts] = useState([]);
+  const navigation = useNavigation();
+  const cartItems = useSelector(selectCartproducts);
+  const cartTotal = useSelector(selectCartTotal);
+  const dispatch = useDispatch();
+  const deliveryFee = 0;
+  const [groupedProducts, setGroupedProducts] = useState([]);
 
-    // Calculate subtotal
-    const subtotal = useSelector(selectCartTotal);
+  // Calculate subtotal
+  const subtotal = useSelector(selectCartTotal);
 
-    const handleRemoveFromCart = (productId) => {
-        dispatch(removeFromCart({ id: productId }));
+  const { isAuthenticated } = useAuthentication();
+
+  const handleRemoveFromCart = (productId) => {
+    dispatch(removeFromCart({ id: productId }));
+  };
+
+  useMemo(() => {
+    const gItems = cartItems.reduce((group, product) => {
+      if (group[product.id]) {
+        group[product.id].quantity += 1;
+      } else {
+        group[product.id] = { ...product, quantity: 1 };
+      }
+      return group;
+    }, {});
+    setGroupedProducts(Object.values(gItems));
+  }, [cartItems]);
+
+  const handlePlaceOrder = () => {
+    if (isAuthenticated) {
+      // Proceed with placing the order
+      navigation.navigate('OrderPreparing');
+    } else {
+      // Display login prompt
+      Alert.alert(
+        'Login Required',
+        'Please log in to place your order.',
+        [
+          { text: 'Cancel', style: 'cancel' },
+          { text: 'Log In', onPress: () => navigation.navigate('Login') },
+        ],
+        { cancelable: false },
+      );
     }
+  };
 
-    useMemo(() => {
-        const gItems = cartItems.reduce((group, product) => {
-            if (group[product.id]) {
-                group[product.id].quantity += 1;
-            } else {
-                group[product.id] = { ...product, quantity: 1 };
-            }
-            return group;
-        }, {});
-        setGroupedProducts(Object.values(gItems));
-    }, [cartItems]);
-
-    return (
+  return (
         <View className="bg-white flex-1">
             {/* top button */}
             <View className="relative py-4 shadow-sm">
@@ -52,7 +75,7 @@ function CartScreen() {
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{
-                    paddingBottom: 50
+                  paddingBottom: 50,
                 }}
                 className="bg-white pt-5"
             >
@@ -61,7 +84,7 @@ function CartScreen() {
                         key={`${product.id}-${index}`}
                         className="flex-row items-center space-x-3 py-2 px-4 bg-white rounded-3xl mx-2 mb-3 shadow-md"
                     >
-                        <Text style={{color: themeColors.text}} className="font-bold">{product.quantity} x </Text>
+                        <Text style={{ color: themeColors.text }} className="font-bold">{product.quantity} x </Text>
                         <Image className="h-14 w-14 rounded-full" source={product.image} style={{ width: 50, height: 50 }} />
                         <Text className="flex-1 font-bold text-gray-700">{product.name}</Text>
                         <Text className="font-semibold text-base">Ksh {product.price}</Text>
@@ -93,7 +116,7 @@ function CartScreen() {
                 <View>
                     <TouchableOpacity
                         style={{ backgroundColor: themeColors.bgColor(1) }}
-                        onPress={() => navigation.navigate('OrderPreparing')}
+                        onPress={handlePlaceOrder}
                         className="p-3 rounded-full"
                         disabled={(!cartItems.length)}
                     >
@@ -102,7 +125,7 @@ function CartScreen() {
                 </View>
             </View>
         </View>
-    );
+  );
 }
 
 export default CartScreen;
