@@ -20,13 +20,13 @@ export const featured = {
       id: 1,
       name: '13 Kg Gas',
       image: require('../assets/images/13kg_gas.png'),
-      price: 2400,
+      price: 2900,
     },
     {
       id: 2,
       name: '6 Kg Gas',
       image: require('../assets/images/6kg_gas.png'),
-      price: 1300,
+      price: 1400,
     },
     {
       id: 3,
