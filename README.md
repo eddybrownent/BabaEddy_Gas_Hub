@@ -10,6 +10,6 @@ Welcome to BabaEddy Gas Home Delivery App! This mobile application allows users 
 - Real-time Tracking: Track the status of your orders in real-time, from placement to delivery.
 - Free Home Delivery: Enjoy the convenience of free home delivery for all orders.
 
-![Home Screen](screenshots/homeScreen.jpg)
+![Home Screen](screenshots/homeSCreen.jpg)
 
 ![products Screen](screenshots/productsScreen.jpg)
