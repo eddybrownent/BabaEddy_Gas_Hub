@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -10,6 +11,7 @@ import LoginScreen from './screens/LoginScreen';
 import SignupScreen from './screens/SignupScreen';
 import ConfirmationScreen from './screens/ConfirmationScreen';
 
+// eslint-disable-next-line no-unused-vars
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
