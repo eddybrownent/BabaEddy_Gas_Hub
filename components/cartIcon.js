@@ -9,8 +9,6 @@ export default function CartIcon() {
   const navigation = useNavigation();
   const cartItems = useSelector(selectCartproducts);
   const cartTotal = useSelector(selectCartTotal);
-  console.log('Cart Items:', cartItems);
-  console.log('Cart Total:', cartTotal);
 
   // If the total quantity is 0, return null to hide the cart icon
   if (cartItems.length === 0) return null;
