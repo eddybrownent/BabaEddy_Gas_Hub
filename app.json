@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "BabaEddy_Gas_Hub",
+    "slug": "BabaEddy_Gas_Hub",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.edwinkaranja.BabaEddy_Gas_Hub",
+      "permissions": ["SEND_EMAIL"],
+      "config": {
+        "googleMaps": { "apiKey": "my_key" }
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "099ec0b8-9605-4745-905d-048f125352fa"
+      }
+    }
+  }
+}
