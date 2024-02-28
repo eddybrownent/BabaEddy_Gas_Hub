@@ -41,7 +41,7 @@ At BabaEddy Gas Delivery, we value your feedback and are committed to providing 
 For general inquiries or assistance with using the app, you can contact our customer support team directly through the app's built-in support feature.
 Email Support:
 
-Alternatively, you can reach us via email at ekaranja28@gmail.com. The support team will respond to your inquiries promptly and provide assistance with any issues or concerns you may have.
+Alternatively, you can reach me via email at ekaranja28@gmail.com. The support team will respond to your inquiries promptly and provide assistance with any issues or concerns you may have.
 
 ![Home Screen](screenshots/homeSCreen.jpg)
 
